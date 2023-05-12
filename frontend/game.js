@@ -1,4 +1,5 @@
 // intialize context
+// download game assests https://itch.io/
 kaboom({
     global: true,
     width: 240,
