@@ -11,6 +11,9 @@ kaboom({
 const PLAYER_SPEED = 80;
 const OGRE_SPEED = 30;
 
+const WIZARD_SPEED = 20;
+const FIRE_SPEED = 100;
+
 loadSprite("floor", "/sprites/floor.png", { sliceX: 8 });
 loadSprite("wall_left", "/sprites/wall_left.png");
 loadSprite("wall_mid", "/sprites/wall_mid.png");
@@ -56,6 +59,15 @@ loadSprite("chest", "/sprites/chest.png", {
     anims: {
         open: { from: 0, to: 2, speed: 20, loop: false },
         close: { from: 2, to: 0, speed: 20, loop: false },
+    }
+});
+
+
+loadSprite("wizard", "/sprites/wizard.png", {
+    sliceX: 8,
+    anims: {
+        idle: { from: 0, to: 3, speed: 5, loop: true },
+        run: { from: 4, to: 7, speed: 10, loop: true },
     }
 });
 
@@ -263,6 +275,24 @@ scene("play", ({ level }) => {
             lifespan(4, {fade:0.5}),
             "chest",
         ])
+
+    
+    // -- WIZARD --
+       const wizard = add([
+            sprite("wizard"), 
+            pos(map.getPos(8, 7)),
+            origin("center"),
+            "danger",
+            state["move", ["idele", "attack","move"]],
+       ]);
+
+
+       wizard.onStateEnter("idle", async () => {});
+
+       wizard.onStateEnter("attack", async () => {});
+
+       wizard.onStateEnter("move", async () => {});
+
     });
 
 
