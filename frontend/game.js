@@ -9,6 +9,7 @@ kaboom({
 });
 
 const PLAYER_SPEED = 80;
+const OGRE_SPEED = 30;
 
 loadSprite("floor", "/sprites/floor.png", { sliceX: 8 });
 loadSprite("wall_left", "/sprites/wall_left.png");
@@ -85,7 +86,7 @@ scene("play", ({ level }) => {
         r: () => [sprite("wall_right"), area(), solid(), "wall"],
         w: () => [sprite("wall_mid"), area(), solid(), "wall"],
         f: () => [sprite("wall_fountain", { anim: "idle" }), area(), solid(), "wall"],
-        "&": () => [sprite("ogre", { anim: "run" }), area(), solid(), scale(0.75), origin("center"), "ogre", "danger"],
+        "&": () => [sprite("ogre", { anim: "run" }), area(), solid(), scale(0.75), origin("center"), { dir: choose([-1, 1]), timer: 0},"ogre", "danger"],
         "^": () => [sprite("spikes", { anim: "idle" }), area(), "spikes", "danger"],
         h: () => [sprite("hole"), area(),{opened: false}, "hole"],
     }
@@ -97,7 +98,7 @@ scene("play", ({ level }) => {
             "l       r",
             "l     & r",
             "l     ^ r",
-            "l   & & r",
+            "l    & r",
             "l ^     r",
             "l h   & r",
             "l      ^r",
@@ -201,6 +202,18 @@ scene("play", ({ level }) => {
                 }
             }
         })
+    });
+
+    // Event that runs every frame(60fps)
+
+    onUpdate("ogre", (o) => {
+        o.move(o.dir * OGRE_SPEED, 0);
+        o.timer -= dt(); // dt() is the time since the last frame
+
+        if (o.timer <= 0) {
+            o.dir = -o.dir;
+            o.timer = rand(5)
+        }
     });
 
 });
