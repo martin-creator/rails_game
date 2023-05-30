@@ -29,7 +29,29 @@ loadSprite("knight", "/sprites/knight.png", {
     }
 });
 
-scene("play", ({level}) => {
+loadSprite("ogre", "/sprites/ogre.png", {
+    sliceX: 4,
+    anims: {
+        run: { from: 0, to: 3, speed: 5, loop: true },
+    }
+});
+
+loadSprite("spikes", "/sprites/spikes.png", {
+    sliceX: 4,
+    anims: {
+        idle: { from: 0, to: 3, speed: 7, loop: true },
+    }
+});
+
+loadSprite("hole", "/sprites/hole.png", {
+    sliceX: 4,
+    anims: {
+        open: { from: 0, to: 1, speed: 5, loop: false },
+    }
+});
+
+
+scene("play", ({ level }) => {
     // add background 10x10
     addLevel([
         "          ",
@@ -57,6 +79,9 @@ scene("play", ({level}) => {
         r: () => [sprite("wall_right"), area(), solid(), "wall"],
         w: () => [sprite("wall_mid"), area(), solid(), "wall"],
         f: () => [sprite("wall_fountain", { anim: "idle" }), area(), solid(), "wall"],
+        "&": () => [sprite("ogre", { anim: "run" }), area(), solid(), scale(0.75), origin("center"), "ogre", "danger"],
+        "^": () => [sprite("spikes", { anim: "idle" }), area(), "spikes", "danger"],
+        h: () => [sprite("hole"), area(),{opened: false}, "hole"],
     }
 
     // List of maps
@@ -64,12 +89,12 @@ scene("play", ({level}) => {
         [
             "lwwwffwwr",
             "l       r",
-            "l       r",
-            "l       r",
-            "l       r",
-            "l       r",
-            "l       r",
-            "l       r",
+            "l     & r",
+            "l     ^ r",
+            "l   & & r",
+            "l ^     r",
+            "l h   & r",
+            "l      ^r",
             "lwwwwwwwr",
         ],
 
@@ -97,7 +122,7 @@ scene("play", ({level}) => {
         solid(), // making a player solid means it can't move through other solids
         //area(), // area() makes the player a rectangle
         origin("center"), // origin("center") makes the player rotate from the center
-        area({width:16, height: 16, offset: vec2(0, 8)}), // area(width:16, height: 16) makes the player a rectangle
+        area({ width: 16, height: 16, offset: vec2(0, 8) }), // area(width:16, height: 16) makes the player a rectangle
     ]);
 
     onKeyDown("left", () => {
@@ -123,7 +148,7 @@ scene("play", ({level}) => {
     });
 
     onKeyRelease(["left", "right", "up", "down"], () => {
-        if(
+        if (
             !keyIsDown("left") &&
             !keyIsDown("right") &&
             !keyIsDown("up") &&
@@ -136,7 +161,7 @@ scene("play", ({level}) => {
 });
 
 
-go("play", { level: 0});
+go("play", { level: 0 });
 
 //debug.inspect = true;
 
