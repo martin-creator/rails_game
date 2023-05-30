@@ -130,6 +130,20 @@ scene("play", ({ level }) => {
     // map level
     map = addLevel(matrix[level], mapConfig);
 
+    // -- SCORE LABEL --
+
+    add([pos(200,20), sprite("chest", {frame: 2}), origin("center")])
+    const scoreLabel = add([
+        text("0"),
+        pos(200, 45),
+        {value: 0},
+        scale(0.3),
+        origin("center"),
+    ]);
+
+    add([text("Martin"), pos(200, 70), scale(0.15), origin("center")])
+
+
     // -- PLAYER --
 
     // add player
@@ -150,7 +164,7 @@ scene("play", ({ level }) => {
         destroy(d);
 
         await wait(2);
-        go("over", { score: 0 });
+        go("over", { score: scoreLabel.value });
 
     });
 
@@ -199,6 +213,18 @@ scene("play", ({ level }) => {
                     go("play", { level:  1 });
                 }
             }
+        });
+
+        every("chest", async (c) => {
+            if (player.isTouching(c)) {
+                if (!c.opened) {
+                    c.play("open");
+                    c.opened = true;
+
+                    scoreLabel.value++;
+                    scoreLabel.text = scoreLabel.value;
+                }
+            }
         })
     });
 
@@ -233,6 +259,7 @@ scene("play", ({ level }) => {
             pos(map.getPos(x, y)),
             area(),
             solid(),
+            {opened: false},
             lifespan(4, {fade:0.5}),
             "chest",
         ])
