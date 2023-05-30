@@ -51,6 +51,14 @@ loadSprite("hole", "/sprites/hole.png", {
     }
 });
 
+loadSprite("chest", "/sprites/chest.png", {
+    sliceX: 3,
+    anims: {
+        open: { from: 0, to: 2, speed: 20, loop: false },
+        close: { from: 2, to: 0, speed: 20, loop: false },
+    }
+});
+
 /**
  * ---------------
  * SCENCE - PLAY
@@ -122,6 +130,8 @@ scene("play", ({ level }) => {
     // map level
     map = addLevel(matrix[level], mapConfig);
 
+    // -- PLAYER --
+
     // add player
     const player = add([
         pos(map.getPos(2, 2)),
@@ -177,19 +187,7 @@ scene("play", ({ level }) => {
         };
     })
 
-    // onKeyPress("space", () => {
-    //     every("hole", async (h) => {
-    //         if (player.isTouching(h)) {
-    //             if (!h.opened) {
-    //                 h.opened = true;
-    //                 h.play("open");
-
-    //                 await wait(1);
-    //                 go("play", { level:  1 });
-    //             }
-    //         }
-    // })
-
+   
     onKeyPress("space", () => {
         every("hole", async (h) => {
             if (player.isTouching(h)) {
@@ -204,6 +202,8 @@ scene("play", ({ level }) => {
         })
     });
 
+     // -- OGRES --
+
     // Event that runs every frame(60fps)
 
     onUpdate("ogre", (o) => {
@@ -215,6 +215,29 @@ scene("play", ({ level }) => {
             o.timer = rand(5)
         }
     });
+
+    // ------- Code for Map 2 -------
+
+    if (level == 0) return;
+
+    // -- CHEST --
+    // Add a new chest in a random position every 2 seconds
+    // And then remove it after 4 seconds
+
+    loop(2, () => {
+        const x = rand(1, 8)
+        const y = rand(1, 8)
+
+        add([
+            sprite("chest"),
+            pos(map.getPos(x, y)),
+            area(),
+            solid(),
+            lifespan(4, {fade:0.5}),
+            "chest",
+        ])
+    });
+
 
 });
 
@@ -233,7 +256,7 @@ scene("over", ({ score }) => {
 });
 
 
-go("play", { level: 0 });
+go("play", { level: 1 });
 
 //debug.inspect = true;
 
