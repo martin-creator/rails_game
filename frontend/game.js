@@ -106,9 +106,9 @@ scene("play", ({ level }) => {
         r: () => [sprite("wall_right"), area(), solid(), "wall"],
         w: () => [sprite("wall_mid"), area(), solid(), "wall"],
         f: () => [sprite("wall_fountain", { anim: "idle" }), area(), solid(), "wall"],
-        "&": () => [sprite("ogre", { anim: "run" }), area(), solid(), scale(0.75), origin("center"), { dir: choose([-1, 1]), timer: 0},"ogre", "danger"],
+        "&": () => [sprite("ogre", { anim: "run" }), area(), solid(), scale(0.75), origin("center"), { dir: choose([-1, 1]), timer: 0 }, "ogre", "danger"],
         "^": () => [sprite("spikes", { anim: "idle" }), area(), "spikes", "danger"],
-        h: () => [sprite("hole"), area(),{opened: false}, "hole"],
+        h: () => [sprite("hole"), area(), { opened: false }, "hole"],
     }
 
     // List of maps
@@ -144,11 +144,11 @@ scene("play", ({ level }) => {
 
     // -- SCORE LABEL --
 
-    add([pos(200,20), sprite("chest", {frame: 2}), origin("center")])
+    add([pos(200, 20), sprite("chest", { frame: 2 }), origin("center")])
     const scoreLabel = add([
         text("0"),
         pos(200, 45),
-        {value: 0},
+        { value: 0 },
         scale(0.3),
         origin("center"),
     ]);
@@ -213,7 +213,7 @@ scene("play", ({ level }) => {
         };
     })
 
-   
+
     onKeyPress("space", () => {
         every("hole", async (h) => {
             if (player.isTouching(h)) {
@@ -222,7 +222,7 @@ scene("play", ({ level }) => {
                     h.play("open");
 
                     await wait(1);
-                    go("play", { level:  1 });
+                    go("play", { level: 1 });
                 }
             }
         });
@@ -240,7 +240,7 @@ scene("play", ({ level }) => {
         })
     });
 
-     // -- OGRES --
+    // -- OGRES --
 
     // Event that runs every frame(60fps)
 
@@ -271,29 +271,47 @@ scene("play", ({ level }) => {
             pos(map.getPos(x, y)),
             area(),
             solid(),
-            {opened: false},
-            lifespan(4, {fade:0.5}),
+            { opened: false },
+            lifespan(4, { fade: 0.5 }),
             "chest",
         ])
 
-    
-    // -- WIZARD --
-       const wizard = add([
-            sprite("wizard"), 
-            pos(map.getPos(8, 7)),
-            origin("center"),
-            "danger",
-            state["move", ["idele", "attack","move"]],
-       ]);
-
-
-       wizard.onStateEnter("idle", async () => {});
-
-       wizard.onStateEnter("attack", async () => {});
-
-       wizard.onStateEnter("move", async () => {});
 
     });
+
+    // -- WIZARD --
+    const wizard = add([
+        sprite("wizard"),
+        pos(map.getPos(8, 7)),
+        origin("center"),
+        "danger",
+        state("move", ["idle", "attack", "move"]),
+    ]);
+
+
+    wizard.onStateEnter("idle", async () => {
+        wizard.play("idle");
+        await wait(0.5);
+        wizard.enterState("move");
+    });
+
+    wizard.onStateEnter("attack", async () => { });
+
+    wizard.onStateEnter("move", async () => {
+        wizard.play("run");
+        await wait(2);
+        wizard.enterState("idle");
+    });
+
+    wizard.onStateUpdate("move", () => {
+        if(!player.exists()) return;
+
+        const dir = player.pos.sub(wizard.pos).unit();
+        wizard.flipX(dir.x < 0);
+        wizard.move(dir.scale(WIZARD_SPEED));
+    });
+
+    wizard.enterState("move");
 
 
 });
@@ -305,10 +323,10 @@ scene("play", ({ level }) => {
  */
 
 scene("over", ({ score }) => {
-    add([text(score, 26), origin("center"), pos(width() / 2, height()/2)]);
+    add([text(score, 26), origin("center"), pos(width() / 2, height() / 2)]);
 
     onMousePress(() => {
-        go ("play", { level: 0 });
+        go("play", { level: 0 });
     });
 });
 
