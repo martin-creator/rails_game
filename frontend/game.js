@@ -50,6 +50,12 @@ loadSprite("hole", "/sprites/hole.png", {
     }
 });
 
+/**
+ * ---------------
+ * SCENCE - PLAY
+ * ---------------
+ */
+
 
 scene("play", ({ level }) => {
     // add background 10x10
@@ -125,6 +131,18 @@ scene("play", ({ level }) => {
         area({ width: 16, height: 16, offset: vec2(0, 8) }), // area(width:16, height: 16) makes the player a rectangle
     ]);
 
+    player.onCollide("danger", async (d) => {
+        shake(10);
+        burp();
+        addKaboom(player.pos);
+        destroy(player);
+        destroy(d);
+
+        await wait(2);
+        go("over", { score: 0 });
+
+    });
+
     onKeyDown("left", () => {
         player.flipX(true);
         player.move(-PLAYER_SPEED, 0);
@@ -158,6 +176,47 @@ scene("play", ({ level }) => {
         };
     })
 
+    // onKeyPress("space", () => {
+    //     every("hole", async (h) => {
+    //         if (player.isTouching(h)) {
+    //             if (!h.opened) {
+    //                 h.opened = true;
+    //                 h.play("open");
+
+    //                 await wait(1);
+    //                 go("play", { level:  1 });
+    //             }
+    //         }
+    // })
+
+    onKeyPress("space", () => {
+        every("hole", async (h) => {
+            if (player.isTouching(h)) {
+                if (!h.opened) {
+                    h.opened = true;
+                    h.play("open");
+
+                    await wait(1);
+                    go("play", { level:  1 });
+                }
+            }
+        })
+    });
+
+});
+
+/**
+ * ---------------
+ * SCENCE - OVER
+ * ---------------
+ */
+
+scene("over", ({ score }) => {
+    add([text(score, 26), origin("center"), pos(width() / 2, height()/2)]);
+
+    onMousePress(() => {
+        go ("play", { level: 0 });
+    });
 });
 
 
