@@ -3,4 +3,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  #API
+
+  namespace :api do
+    namespace :v1 do
+      resources :games, :players, only:[:index, :create]
+    end
+  end
 end
