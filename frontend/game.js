@@ -14,6 +14,11 @@ const OGRE_SPEED = 30;
 const WIZARD_SPEED = 20;
 const FIRE_SPEED = 100;
 
+const BASE_X = width() / 2;
+const BASE_Y = 50;
+
+const BASE_URL = "http://127.0.0.1:3000/api/v1";
+
 loadSprite("floor", "/sprites/floor.png", { sliceX: 8 });
 loadSprite("wall_left", "/sprites/wall_left.png");
 loadSprite("wall_mid", "/sprites/wall_mid.png");
@@ -349,12 +354,78 @@ scene("over", ({ score }) => {
     add([text(score, 26), origin("center"), pos(width() / 2, height() / 2)]);
 
     onMousePress(() => {
-        go("play", { level: 0 });
+        //go("play", { level: 0 });
+        go("intro");
     });
 });
 
 
 go("play", { level: 1 });
 
+
+/**
+ * ---------------
+ * SCENCE - INTRO
+ * ---------------
+ */
+
+scene("intro", () => {
+    // step 1 - Fetch the top 5 games from APIS
+    const games = [
+        {
+            "score": 20,
+            "player": {
+                "id": 2,
+                "username": "JOSEPH"
+            }
+        },
+        {
+            "score": 10,
+            "player": {
+                "id": 1,
+                "username": "MARTIN"
+            }
+        }
+    ];
+
+    // step 2 - Display the top 5 games
+    add([
+        pos(BASE_X, BASE_Y - 30),
+        sprite("knight", { anim: "idle" }),
+        origin("center"),
+    ]);
+
+    games.forEach((game, index) => {
+        add([
+            text(`${game.player.username.toUpperCase()}\u00A0${game.score}`, {
+                size: 10,
+                width: 180,
+                //font: "sink"
+            }),
+            scale(0.75),
+            pos(BASE_X, BASE_Y + index * 20),
+            origin("center"),
+        ]);
+    
+        onMousePress(() => {
+            go("play", { level: 0 });
+        }
+        );
+    });
+
+
+
+
+
+});
+
+
+//go("intro");
+go("play", { level: 0 });
+
 //debug.inspect = true;
+
+
+
+
 
