@@ -284,6 +284,7 @@ scene("play", ({ level }) => {
         sprite("wizard"),
         pos(map.getPos(8, 7)),
         origin("center"),
+        area(),
         "danger",
         state("move", ["idle", "attack", "move"]),
     ]);
@@ -292,10 +293,32 @@ scene("play", ({ level }) => {
     wizard.onStateEnter("idle", async () => {
         wizard.play("idle");
         await wait(0.5);
-        wizard.enterState("move");
+        wizard.enterState("attack");
     });
 
-    wizard.onStateEnter("attack", async () => { });
+    wizard.onStateEnter("attack", async () => {
+        if (!player.exists()) {
+            const dir = player.pos.sub(wizard.pos).unit();
+
+            // Generate a fireball
+            add([
+                pos(wizard.pos),
+                move(dir, FIRE_SPEED),
+                rect(2, 2),
+                area(),
+                origin("center"),
+                color(RED),
+                cleanup(), // cleanup() destroys the fireball when it leaves the screen
+                "fire",
+                "danger",
+            ]);
+        }
+
+
+
+        await wait(1);
+        wizard.enterState("move");
+    });
 
     wizard.onStateEnter("move", async () => {
         wizard.play("run");
@@ -304,7 +327,7 @@ scene("play", ({ level }) => {
     });
 
     wizard.onStateUpdate("move", () => {
-        if(!player.exists()) return;
+        if (!player.exists()) return;
 
         const dir = player.pos.sub(wizard.pos).unit();
         wizard.flipX(dir.x < 0);
