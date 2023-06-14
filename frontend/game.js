@@ -187,7 +187,7 @@ scene("play", ({ level }) => {
         origin("center"),
     ]);
 
-    add([text("Martin"), pos(200, 70), scale(0.15), origin("center")])
+    add([text(currentPlayer), pos(200, 70), scale(0.15), origin("center")])
 
 
     // -- PLAYER --
@@ -379,9 +379,25 @@ scene("play", ({ level }) => {
  * ---------------
  */
 
+const saveGame = async (player, score) => {
+    await fetch(BASE_URL + "games", await fetch(BASE_URL + "players", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+             Accept: "application/json",
+        },
+        body: JSON.stringify({
+           username: player, 
+           score: score,
+        }),
+    }))
+};
+
 scene("over", ({ score }) => {
     add([text(score, 26), origin("center"), pos(width() / 2, height() / 2)]);
 
+    if (score > 0) saveGame(currentPlayer, score);
+    
     onMousePress(() => {
         //go("play", { level: 0 });
         go("intro");
