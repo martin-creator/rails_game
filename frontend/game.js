@@ -17,7 +17,7 @@ const FIRE_SPEED = 100;
 const BASE_X = width() / 2;
 const BASE_Y = 50;
 
-const BASE_URL = "http://127.0.0.1:3000/api/v1";
+const BASE_URL = "http://127.0.0.1:3000/api/v1/";
 
 loadSprite("floor", "/sprites/floor.png", { sliceX: 8 });
 loadSprite("wall_left", "/sprites/wall_left.png");
@@ -369,26 +369,19 @@ go("play", { level: 1 });
  * ---------------
  */
 
-scene("intro", () => {
-    // step 1 - Fetch the top 5 games from APIS
-    const games = [
-        {
-            "score": 20,
-            "player": {
-                "id": 2,
-                "username": "JOSEPH"
-            }
-        },
-        {
-            "score": 10,
-            "player": {
-                "id": 1,
-                "username": "MARTIN"
-            }
-        }
-    ];
+const fetchTop5 = async () => {
+    const response = await fetch(BASE_URL + "games");
+    const games = await response.json();
+    return games;
+}
 
+scene("intro", async () => {
+    // step 1 - Fetch the top 5 games from APIS
+    const games = await fetchTop5();
+    console.log(games);
     // step 2 - Display the top 5 games
+    
+   
     add([
         pos(BASE_X, BASE_Y - 30),
         sprite("knight", { anim: "idle" }),
@@ -420,8 +413,8 @@ scene("intro", () => {
 });
 
 
-//go("intro");
-go("play", { level: 0 });
+go("intro");
+//go("play", { level: 0 });
 
 //debug.inspect = true;
 
