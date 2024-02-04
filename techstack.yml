@@ -1,0 +1,136 @@
+repo_name: martin-creator/rails_game
+report_id: 4891f04f9e599b7b8034a1dc564f3724
+version: 0.1
+repo_type: Public
+timestamp: '2024-02-04T07:59:31+00:00'
+requested_by: martin-creator
+provider: github
+branch: master
+detected_tools_count: 10
+tools:
+- name: JavaScript
+  description: Lightweight, interpreted, object-oriented language with first-class
+    functions
+  website_url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/martin-creator/rails_game
+  detection_source: Repo Metadata
+- name: Ruby
+  description: A dynamic, interpreted, open source programming language with a focus
+    on simplicity and productivity
+  website_url: https://www.ruby-lang.org
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/989/ruby.png
+  detection_source_url: https://github.com/martin-creator/rails_game
+  detection_source: Repo Metadata
+- name: Rails
+  description: Web development that doesn't hurt
+  website_url: http://rubyonrails.org/
+  version: 7.0.5
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/990/x57_Lorv.png
+  detection_source_url: https://github.com/martin-creator/rails_game/blob/master/backend/Gemfile.lock
+  detection_source: backend/Gemfile
+  last_updated_by: martin-creator
+  last_updated_on: 2023-06-13 20:59:09.000000000 Z
+- name: SQLite
+  description: A software library that implements a self-contained, serverless, zero-configuration,
+    transactional SQL database engine
+  website_url: http://www.sqlite.org/
+  open_source: false
+  hosted_saas: true
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1071/sqlite.jpg
+  detection_source_url: https://github.com/martin-creator/rails_game/blob/master/backend/Gemfile
+  detection_source: backend/Gemfile
+  last_updated_by: martin-creator
+  last_updated_on: 2023-06-13 20:59:09.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/martin-creator/rails_game
+  detection_source: Repo Metadata
+- name: Puma
+  description: A Modern, Concurrent Web Server for Ruby
+  website_url: http://puma.io/
+  version: 5.6.5
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Application Hosting
+  sub_category: Web Servers
+  image_url: https://img.stackshare.io/service/1055/favicon.png
+  detection_source_url: https://github.com/martin-creator/rails_game/blob/master/backend/Gemfile.lock
+  detection_source: backend/Gemfile
+  last_updated_by: martin-creator
+  last_updated_on: 2023-06-13 20:59:09.000000000 Z
+- name: RubyGems
+  description: Easily download, install, and use ruby software packages on your system
+  website_url: https://rubygems.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/service/12795/5jL6-BA5_400x400.jpeg
+  detection_source_url: https://github.com/martin-creator/rails_game/blob/master/backend/Gemfile
+  detection_source: backend/Gemfile
+  last_updated_by: martin-creator
+  last_updated_on: 2023-06-13 20:59:09.000000000 Z
+- name: Twilio SendGrid
+  description: Email Delivery. Simplified.
+  website_url: http://sendgrid.com
+  open_source: false
+  hosted_saas: true
+  category: Communications
+  sub_category: Transactional Email
+  image_url: https://img.stackshare.io/service/43/kQ_6nwmP.jpg
+  detection_source_url: https://github.com/martin-creator/rails_game/blob/master/backend/config/environments/production.rb
+  detection_source: backend/config/environments/production.rb
+  last_updated_by: martin-creator
+  last_updated_on: 2023-06-13 20:59:09.000000000 Z
+- name: Bootsnap
+  description: Boot large ruby/rails apps faster, by Shopify
+  website_url: https://github.com/shopify/bootsnap
+  version: 1.16.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Application Utilities
+  sub_category: Ruby Utilities
+  image_url: https://img.stackshare.io/no-img-open-source.png
+  detection_source_url: https://github.com/martin-creator/rails_game/blob/master/backend/Gemfile.lock
+  detection_source: backend/Gemfile
+  last_updated_by: martin-creator
+  last_updated_on: 2023-06-13 20:59:09.000000000 Z
+- name: sqlite3
+  description: This module allows Ruby programs to interface with the SQLite3 database
+    engine
+  package_url: https://rubygems.org/sqlite3
+  version: 1.6.3
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: RubyGems Packages
+  image_url: https://img.stackshare.io/package/18820/default_6564ae059af6c4ea7065fd2329370c7a05341cf8.png
+  detection_source_url: https://github.com/martin-creator/rails_game/blob/master/backend/Gemfile.lock
+  detection_source: backend/Gemfile
+  last_updated_by: martin-creator
+  last_updated_on: 2023-06-13 20:59:09.000000000 Z
